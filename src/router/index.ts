@@ -15,9 +15,9 @@ const routes: Array<RouteConfig> = [
     component: HomeView
   },
   {
-    path: '/messages',
-    name: 'messages',
-    component: () => import('../views/MessagesView.vue')
+    path: '/chat',
+    name: 'chat',
+    component: () => import('../views/ChatView.vue')
   }
 ]
 

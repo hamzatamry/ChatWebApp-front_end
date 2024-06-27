@@ -71,7 +71,7 @@ export default Vue.extend({
       console.log(this.mode);
 
       console.log(this.email + " " + this.password);
-      this.$router.push({ name: 'messages'});
+      this.$router.push({ name: 'chat'});
     }
   }
 });

@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-header">
         <h1>
-          Discussions
+          Chat
           <button type="button" class="btn btn-primary position-relative">
             New Messages
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
