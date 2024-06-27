@@ -1,11 +1,11 @@
 <template>
-  <h1>This is HomeView</h1>
+    <h1>This is MessagesView</h1>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'HomeView',
+  name: 'MessagesView',
 });
 </script>
