@@ -12,6 +12,7 @@
         </div>
         <p v-if="!formIsValid" style="color: red;">The form is not valid</p>
         <div>
+          <p :style="{ color: success ? 'green' : 'red' }">{{ message }}</p>
           <button class="btn btn-primary">{{ submitButtonCaption }}</button>
           <div @click="switchAuthMode" class="btn">{{ switchModeButtonCaption }}</div>
         </div>
@@ -21,6 +22,7 @@
 </template>
 
 <script lang="ts">
+import { AxiosError, AxiosResponse } from 'axios';
 import Vue from 'vue';
 
 export default Vue.extend({
@@ -30,7 +32,11 @@ export default Vue.extend({
       email: '',
       password: '',
       formIsValid: true,
-      mode: 'login'
+      mode: 'login',
+
+      //feedback
+      success: true,
+      message: ""
     }
   },
   computed: {
@@ -66,12 +72,50 @@ export default Vue.extend({
       //changing formIsValid
     },
     submitForm() {
-      console.log(this.email);
-      console.log(this.password);
-      console.log(this.mode);
+      if (!this.formIsValid) {
+        return;
+      }
 
-      console.log(this.email + " " + this.password);
-      this.$router.push({ name: 'chat'});
+      if (this.mode === 'login') {
+
+        this.$store.dispatch('login', {
+          email: this.email,
+          password: this.password
+        })
+        .then((response: any) => {
+          console.log(response);
+          
+        
+          //sorry for running the mutation directly and no trough an action, i think i don't have a choice here :)
+          this.$store.commit('setUser', {
+              token: response.data.token,
+              userId: response.localId,
+              //tokenExpiration: response.expiresIn
+          });
+
+          localStorage.setItem("token", this.$store.getters.token);
+          this.$router.push({ name: "chat"});
+        })
+        .catch(error => {
+          console.log(error);
+        })
+      }
+      else {
+        this.$store.dispatch('signup', {
+          email: this.email,
+          password: this.password
+        }) 
+        .then((response: AxiosResponse) => {
+          console.log(response.data);
+          this.success = true;
+          this.message = response.data;
+        })
+        .catch((error: any) => {
+          console.log(error);
+          this.success = false;
+          this.message = error.response.data.message;
+        })    
+      } 
     }
   }
 });

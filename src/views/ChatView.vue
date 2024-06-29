@@ -6,8 +6,8 @@
           Chat
           <button type="button" class="btn btn-primary position-relative">
             New Messages
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              {{ messageCount }}+
+            <span v-if="messagesCount > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {{ messagesCount }}+
               <span class="visually-hidden">unread messages</span>
             </span>
           </button>
@@ -23,7 +23,7 @@
               <option v-for="user of users" :key="user" :value="user">{{ user }}</option>
               </select>
             </span>
-            <input type="text" class="form-control" placeholder="Your message">
+            <input type="text" class="form-control" placeholder="Your message" v-model="message">
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="button">Send</button>
             </div>
@@ -43,12 +43,14 @@ export default Vue.extend({
     return {
       email: "",
       password: "",
-      messageCount: 99,
       users : [
         'hamzatamry@outlook.fr',
         'zakariasabour@outlook.fr',
         'test@test.com'
-      ]
+      ],
+      message: "",
+      messagesCount: 99,
+      formIsValid: true,
     }
   },
   methods: {
@@ -56,7 +58,28 @@ export default Vue.extend({
 
     },
     submitForm() {
+
       console.log(this.email + " " + this.password);
+
+      if (!this.formIsValid) {
+        return ;
+      }
+
+      fetch("http://", {
+        method: 'POST',
+        headers: {
+          'Authorization': 'JWT TOKEN',
+          'Content-Type': 'application/txt'
+        },
+        body: this.message
+      })
+      .then((response) => {
+        console.log(response);
+        this.$router.push({ name: 'chat'});
+      })
+      .catch((error) => {
+        console.log(error);
+      }) 
     },
   }
 });
