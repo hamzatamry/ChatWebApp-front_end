@@ -86,6 +86,7 @@ export default Vue.extend({
   created() {
     this.connection = new HubConnectionBuilder().withUrl('/chat').build();
 
+    //to treat receivedMessages
     this.connection.on('ReceiveMessage', (senderEmail: string, message: string) => {
       const msg: string = `${senderEmail} : ${message}\n`;
       this.inboxMessages.push(msg);
@@ -97,10 +98,16 @@ export default Vue.extend({
         console.log(this.connection?.connectionId);
         console.log(this.$store.getters.userId);
 
-        //send connectionId wtih connected userID to database
-        this.$store.dispatch('connect', { connectionId: this.connection?.connectionId, userId: this.$store.getters.userId })
-          .then(response => console.log(response))
-          .catch(error => console.log(error));
+        this.connection.invoke('AddConnection', { connectionId: this.connection?.connectionId, userId: this.$store.getters.userId })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch(err => console.error(err));
+
+        // //send connectionId wtih connected userID to database
+        // this.$store.dispatch('connect', { connectionId: this.connection?.connectionId, userId: this.$store.getters.userId })
+        //   .then(response => console.log(response))
+        //   .catch(error => console.log(error));
       })
       .catch(err => console.error('Error while starting connection: ' + err));
   },
@@ -156,7 +163,7 @@ export default Vue.extend({
         return ;
       }
 
-      this.connection.invoke('SendMessage', senderId, this.receiverId, this.message)
+      this.connection.invoke('AddMessage', senderId, this.receiverId, this.message)
       .then(() => {
         this.message = '';
       })
