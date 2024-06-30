@@ -103,11 +103,6 @@ export default Vue.extend({
             console.log(response);
           })
           .catch(err => console.error(err));
-
-        // //send connectionId wtih connected userID to database
-        // this.$store.dispatch('connect', { connectionId: this.connection?.connectionId, userId: this.$store.getters.userId })
-        //   .then(response => console.log(response))
-        //   .catch(error => console.log(error));
       })
       .catch(err => console.error('Error while starting connection: ' + err));
   },
