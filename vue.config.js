@@ -8,6 +8,10 @@ module.exports = defineConfig({
         target: 'http://localhost:5243',
         changeOrigin: true
       },
+      '^/chat': {
+        target: 'http://localhost:5243',
+        changeOrigin: true
+      }
     },
   },
 })

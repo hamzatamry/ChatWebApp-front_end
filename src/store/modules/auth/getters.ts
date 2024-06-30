@@ -4,5 +4,8 @@ export default {
     },
     token(state: any) {
         return state.token;
+    },
+    email(state:  any) {
+        return state.email;
     }
 }

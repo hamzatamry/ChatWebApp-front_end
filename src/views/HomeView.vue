@@ -12,7 +12,7 @@
         </div>
         <p v-if="!formIsValid" style="color: red;">The form is not valid</p>
         <div>
-          <p :style="{ color: success ? 'green' : 'red' }">{{ message }}</p>
+          <p :style="{ color: success ? 'green' : 'red' }">{{ formMessage }}</p>
           <button class="btn btn-primary">{{ submitButtonCaption }}</button>
           <div @click="switchAuthMode" class="btn">{{ switchModeButtonCaption }}</div>
         </div>
@@ -32,11 +32,10 @@ export default Vue.extend({
       email: '',
       password: '',
       formIsValid: true,
+      formMessage: "",
       mode: 'login',
-
-      //feedback
       success: true,
-      message: ""
+      
     }
   },
   computed: {
@@ -82,21 +81,24 @@ export default Vue.extend({
           email: this.email,
           password: this.password
         })
-        .then((response: any) => {
-          console.log(response);
+        .then((response: any) => {        
           
-        
-          //sorry for running the mutation directly and no trough an action, i think i don't have a choice here :)
+          this.success = true; this.formMessage = response.data
+
+          //sorry for running the mutation directly and not through an action, i think i don't have a choice here :)
           this.$store.commit('setUser', {
               token: response.data.token,
-              userId: response.localId,
+              userId: response.data.userId,
+              email: this.email
               //tokenExpiration: response.expiresIn
           });
 
-          localStorage.setItem("token", this.$store.getters.token);
+          localStorage.setItem("userData", JSON.stringify({ id: this.$store.getters.userId, token : this.$store.getters.token }));
+          
           this.$router.push({ name: "chat"});
         })
         .catch(error => {
+          this.success = false; this.formMessage = error.response.data.message;
           console.log(error);
         })
       }
@@ -108,12 +110,12 @@ export default Vue.extend({
         .then((response: AxiosResponse) => {
           console.log(response.data);
           this.success = true;
-          this.message = response.data;
+          this.formMessage = response.data;
         })
         .catch((error: any) => {
           console.log(error);
           this.success = false;
-          this.message = error.response.data.message;
+          this.formMessage = error.response.data.message;
         })    
       } 
     }

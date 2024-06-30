@@ -9,10 +9,8 @@ Vue.use(Vuex);
 export default {
   state() {
     return {
-      userId: null,
-      token: null,
-      email: null,
-      //tokenExpiration: null
+      connectionId: null,
+      userId: null
     }
   },
   mutations: mutations,
