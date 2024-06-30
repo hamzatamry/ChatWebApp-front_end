@@ -4,7 +4,10 @@
 
 <script lang="ts">
 export default {
-  name: 'AppView'
+  name: 'AppView',
+  created() {
+    //adding autologin feature later
+  }
 }
 </script>
 

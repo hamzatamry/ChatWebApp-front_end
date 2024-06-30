@@ -3,6 +3,7 @@ export default {
        state.token = payload.token;
        state.userId = payload.userId;
        state.email = payload.email;
-       //state.tokenExpiration = payload.tokeExpiration
+       state.isAuthenticated = payload.isAuthenticated;
+       //state.tokenExpiration = payload.tokenExpiration
     }
 };

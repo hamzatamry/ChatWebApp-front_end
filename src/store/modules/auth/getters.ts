@@ -7,5 +7,8 @@ export default {
     },
     email(state:  any) {
         return state.email;
+    },
+    isAuthenticated(state: any) {
+        return state.isAuthenticated;
     }
 }

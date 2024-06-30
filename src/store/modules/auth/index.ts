@@ -12,7 +12,8 @@ export default {
       userId: null,
       token: null,
       email: null,
-      //tokenExpiration: null
+      isAuthenticated: null
+      //tokenExpiration: null //i was thinking about adding a  refresh token
     }
   },
   mutations: mutations,
