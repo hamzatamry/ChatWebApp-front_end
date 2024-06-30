@@ -128,7 +128,7 @@ export default Vue.extend({
         .then((response: AxiosResponse) => {
           console.log(response.data);
           this.feedbacksuccess = true;
-          this.feedbackMessage = response.data;
+          this.feedbackMessage = response.data.message;
         })
         .catch((error: any) => {
           console.log(error);
