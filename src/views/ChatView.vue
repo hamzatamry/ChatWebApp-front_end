@@ -103,6 +103,7 @@ export default Vue.extend({
             console.log(response);
           })
           .catch(err => console.error(err));
+
       })
       .catch(err => console.error('Error while starting connection: ' + err));
   },
@@ -171,10 +172,6 @@ export default Vue.extend({
     logout() {
       this.$store.dispatch('logout', { connection: this.connection });
     }
-  },
-  destroyed() {
-    console.log("destroyed");
-    this.connection?.stop();
-  } 
+  }
 });
 </script>

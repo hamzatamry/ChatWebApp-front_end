@@ -21,8 +21,18 @@ export default {
     logout(context: any, payload: any) {
         //this method will be called either clicking logout
         console.log('logged out');
-        //kill ws connection
-        payload.connection.stop();
+        
+        //Delete the connection from the database 
+        payload.connection.invoke('DeleteConnection', payload.connection.connectionId)
+            .then(() => {
+                //kill ws connection
+                payload.connection.stop()
+                    .then(() => {
+                        
+                    })
+                    .catch(error => console.log(error))
+            })
+            .catch(error => console.log(error));
 
         //remove JWT token from local storage
         localStorage.removeItem("token"); localStorage.removeItem("userId");
