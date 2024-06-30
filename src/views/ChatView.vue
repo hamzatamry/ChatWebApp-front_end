@@ -87,7 +87,7 @@ export default Vue.extend({
     this.connection = new HubConnectionBuilder().withUrl('/chat').build();
 
     this.connection.on('ReceiveMessage', (senderEmail: string, message: string) => {
-      const msg: string = `${senderEmail}: ${message}\n`;
+      const msg: string = `${senderEmail} : ${message}\n`;
       this.inboxMessages.push(msg);
     });
 
